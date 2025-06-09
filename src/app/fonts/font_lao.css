@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'Saysettha';
+  src: url("./saysettha/Saysettha-Regular.ttf") format('truetype');
+  font-weight: normal;
+  }
+
+html,body,div,p,table,tr,td {
+  font-family: "Saysettha";
+}
+
+h1,h2,h3,h4,h5{
+  font-family: "Saysettha";
+}
+
+table, td,table{
+  white-space: normal;
+}
+
+
