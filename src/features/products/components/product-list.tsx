@@ -10,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -36,7 +35,8 @@ import DeleteProductModal from "./delete-product-modal";
 import { useEffect, useState } from "react";
 import RestoreProductModal from "./restore-product-modal";
 import ProductDetailModal from "./product-detail-modal";
-import { useRouter, useSearchParams } from "next/navigation";
+import Pagination from "../../../components/shared/pagination";
+import SearchInput from "@/components/shared/search-input";
 
 interface ProductListProps {
   products: ProductType[];
@@ -51,9 +51,6 @@ const ProductList = ({
   page,
   limit,
 }: ProductListProps) => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const totalPages = Math.ceil(totalCount / limit);
 
   const [activeTab, setActiveTab] = useState("all");
   const [filteredProducts, setFillteredProducts] = useState(products);
@@ -109,11 +106,7 @@ const ProductList = ({
     setIsDetailModal(true);
   };
 
-    const handlePageChange = (newPage: number) => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("page", newPage.toString());
-    router.push(`/admin/products?${newParams.toString()}`);
-  };
+   
 
   return (
     <>
@@ -171,9 +164,8 @@ const ProductList = ({
                   size={16}
                   className="absolute left-2 top-2.5 text-muted-foreground"
                 />
-                <Input
+                <SearchInput
                   placeholder="ຄົ້ນຫາສິນຄ້າ....."
-                  className="pl-8"
                   onChange={(event) => handleSearch(event)}
                 />
               </div>
@@ -308,23 +300,7 @@ const ProductList = ({
               )}
             </TableBody>
           </Table>
-          <div className="flex justify-between items-center mt-4">
-            <Button
-              disabled={page <= 1}
-              onClick={() => handlePageChange(page - 1)}
-            >
-              ກັບຄືນ
-            </Button>
-            <span>
-              ໜ້າ {page} ຈາກທັງໝົດ {totalPages} ໜ້າ
-            </span>
-            <Button
-              disabled={page >= totalPages}
-              onClick={() => handlePageChange(page + 1)}
-            >
-              ຖັດໄປ
-            </Button>
-          </div>
+         <Pagination totalCount={totalCount} page={page} limit={limit} path={'/admin/products'} />
         </CardContent>
       </Card>
 

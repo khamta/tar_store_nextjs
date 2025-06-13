@@ -284,6 +284,67 @@ export const getAllOrders = async (userId: string, status?: OrderStatus) => {
   }
 };
 
+export const getOrderByUser = async (userId: string) => {
+  "use cache";
+
+  if (!userId) {
+    redirect("/auth/signin");
+  }
+
+  cacheLife("minutes");
+  cacheTag(await getOrderGlobalTag());
+
+  try {
+    const orders = await db.order.findMany({
+      where: {
+        customerId: userId,
+      },
+      include: {
+        customer: true,
+        items: {
+          include: {
+            product: {
+              include: {
+                category: true,
+                images: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const orderDetails = orders.map((order) => {
+      return {
+        ...order,
+        items: order.items.map((item) => {
+          const mainImage = item.product.images.find((image) => image.isMain);
+
+          return {
+            ...item,
+            product: {
+              ...item.product,
+              lowStock: 5,
+              sku: item.productId.substring(0, 8).toUpperCase(),
+              mainImage,
+            },
+          };
+        }),
+        createdAtFormatted: formatDate(order.createdAt),
+        paymentAtFormatted: order.paymentAt
+          ? formatDate(order.paymentAt)
+          : null,
+        totalItems: order.items.reduce((sum, item) => sum + item.quantity, 0),
+      };
+    });
+
+    return orderDetails;
+  } catch (error) {
+    console.error("Error getting all orders:", error);
+    return [];
+  }
+};
+
 export const uploadPaymentSlip = async (orderId: string, file: File) => {
   const user = await authCheck();
   if (!user) {
@@ -309,8 +370,7 @@ export const uploadPaymentSlip = async (orderId: string, file: File) => {
 
     if (order.status !== "Pending") {
       return {
-        message:
-          "ບໍ່ສາມາດອັບໂຫລດຫຼັກຖານການຊຳລະໄດ້",
+        message: "ບໍ່ສາມາດອັບໂຫລດຫຼັກຖານການຊຳລະໄດ້",
       };
     }
 

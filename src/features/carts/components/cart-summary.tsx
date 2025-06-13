@@ -59,7 +59,7 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
       </div>
       <div className="flex justify-between text-muted-foreground">
         <span>ຄ່າສົ່ງ</span>
-        <span> ຟຣີ</span>
+        <span> 20,000 ກີບ</span>
       </div>
       <Separator />
       <div className="flex justify-between font-medium text-lg">

@@ -23,7 +23,9 @@ export const getUserById = async (id: string) => {
         status: true,
         address: true,
         picture: true,
+        pictureId: true,
         tel: true,
+        createdAt: true,
       },
     });
     return user;

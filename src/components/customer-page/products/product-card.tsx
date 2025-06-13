@@ -1,27 +1,41 @@
+'use client'
+
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import AddToCartButton from "@/features/carts/components/add-to-cart-button";
+import ProductDetailModal from "@/features/products/components/product-detail-modal";
 import { formatPrice } from "@/lib/formatPrice";
 import { cn } from "@/lib/utils";
 import { ProductType } from "@/types/product";
-import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 interface ProductCardProps {
   product: ProductType;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+
+    const [isDetailModal, setIsDetailModal] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
+      null
+    );
+
+     const handleDetailClick = (product: ProductType) => {
+    setSelectedProduct(product);
+    setIsDetailModal(true);
+  };
+
   const discount =
     product.basePrice > product.price
       ? ((product.basePrice - product.price) / product.basePrice) * 100
       : 0;
 
   return (
+<>
     <Card className="group overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-md">
-      <Link href={`/products/${product.id}`}>
+      <div className="cursor-pointer" onClick={() => handleDetailClick(product)}>
         <div className="relative pt-[100%] overflow-hidden bg-muted-foreground">
           {discount > 0 && (
             <Badge className="absolute top-2 left-2 z-2 px-2 py-1">
@@ -45,7 +59,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             </div>
           )}
         </div>
-      </Link>
+      </div>
       <CardContent className="p-4">
         <div className="space-y-2">
           <Link href={`/products/${product.id}`}>
@@ -93,6 +107,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <AddToCartButton productId={product.id} stock={product.stock} className="w-full gap-1" />
       </CardFooter>
     </Card>
+          <ProductDetailModal
+        open={isDetailModal}
+        onOpenChange={setIsDetailModal}
+        product={selectedProduct}
+      /></>
   );
 };
 

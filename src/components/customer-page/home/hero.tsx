@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import { name_app } from "@/name_app"
 import { ArrowRight, ShoppingBag, Sparkle } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -14,7 +15,7 @@ const Hero = () => {
                 <div className="max-w-xl">
                     <div className="inline-flex border border-primary/60 rounded-full items-center gap-2 px-4 py-1.5 mb-6">
                         <Sparkle size={14} />
-                        <span>ຍິນດີຕ້ອນຮັບທຸກເວັບໄຊ໌ Tar Store</span>
+                        <span>ຍິນດີຕ້ອນຮັບທຸກເວັບໄຊ໌ {name_app}</span>
                     </div>
                     <h1 className="text-4xl md:text-6xl font-bold">ຊັອບສິນຄ້າໄອທີ
                         <span className="block mt-2 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent md:py-2">

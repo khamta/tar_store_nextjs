@@ -153,12 +153,6 @@ export const getFeaturedProducts = async () => {
         sku: product.id.substring(0, 8).toUpperCase(),
         mainImage: mainImage,
       };
-      return {
-        ...product,
-        lowStock: 5,
-        sku: product.id.substring(0, 8).toUpperCase(),
-        mainImage: mainImage,
-      };
     });
   } catch (error) {
     console.error("Error getting featured products: ", error);
@@ -375,6 +369,7 @@ export const updateProduct = async (
     };
   }
 };
+
 
 export const changeProductStatus = async (
   id: string,

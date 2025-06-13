@@ -11,7 +11,7 @@ const decryptJwtToken = async (token: string): Promise<Payload | null> => {
     const { payload } = await jwtVerify(token, secret);
     return payload as Payload;
   } catch (error) {
-    console.error("Error decripting jwt token: ", error)
+    console.error("Error decripting jwt token:", error);
     return null;
   }
 };
@@ -23,6 +23,7 @@ export const middleware = async (req: NextRequest) => {
 
   const payload = await decryptJwtToken(token);
   const isTokenExpired = payload?.exp && payload.exp < Date.now() / 1000;
+
   if (!payload || isTokenExpired) {
     response.cookies.delete("token");
     return response;
@@ -35,10 +36,14 @@ export const middleware = async (req: NextRequest) => {
 export const config = {
   matcher: [
     "/",
-    "/auth/:path*", // /auth/signin, /auth/signup
+    "/auth/:path*", // /auth, /auth/signup, /auth/signin
     "/admin/:path*",
-    "/cart/:path*", // /cart
+    "/cart/:path*",
+    "/products/:path*",
     "/checkout/:path*",
     "/my-orders/:path*",
+    "/about/:path*",
+    "/contact/:path*",
+    "/profile/:path*",
   ],
 };

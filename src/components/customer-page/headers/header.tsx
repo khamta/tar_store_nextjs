@@ -2,6 +2,7 @@ import Link from "next/link"
 import { ShoppingBagIcon } from "lucide-react"
 import Navbar from './navbar';
 import { UserType } from "@/types/user";
+import { name_app } from "@/name_app";
 
 interface HeaderCustomerProps {
     user: UserType | null
@@ -14,7 +15,7 @@ const HeaderCustomer = ({user}: HeaderCustomerProps) => {
             {/* Icon */}
             <Link href={'/'} className="flex items-center gap-2 text-primary">
             <ShoppingBagIcon size={28} />
-            <h2 className="text-xl font-bold">Tar Store</h2>
+            <h2 className="text-xl font-bold">{name_app}</h2>
             </Link>
 
             {/* Menu */}

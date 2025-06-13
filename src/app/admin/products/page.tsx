@@ -10,7 +10,7 @@ interface ProductAdminPageProps {
 const ProductAdminPage = async ({ searchParams }: ProductAdminPageProps) => {
   const page = parseInt((await searchParams).page || "1");
 
-  const limit = 2;
+  const limit = 5;
 
   const { products, totalCount } = await getProducts(page, limit);
 
