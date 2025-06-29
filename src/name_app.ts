@@ -1,1 +1,1 @@
-export const name_app = 'Tar Store'
+export const name_app = 'IT Store'
